@@ -8,13 +8,12 @@ const blogSchema = new mongoose.Schema({
     maxlength: 200
   },
   banner: {
-    type: String,
-    required: true,
-    trim: true
+    public_id: { type: String, required: true, default: "" },
+    url: { type: String, required: true, default: "" },
   },
   images: [{
-    type: String,
-    trim: true
+    public_id: { type: String, required: true, default: "" },
+    url: { type: String, required: true, default: "" },
   }],
   subtitle: {
     type: String,
