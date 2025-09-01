@@ -36,7 +36,7 @@ app.options("*", cors()); // handle preflight requests
 //   optionsSuccessStatus: 200
 // };
 app.use(cors({
-  origin: (origin, callback) => {
+  origin: function (origin, callback) {
     if (!origin || ORIGINS.includes(origin)) {
       callback(null, true);
     } else {
