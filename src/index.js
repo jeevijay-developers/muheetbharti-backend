@@ -28,6 +28,7 @@ const corsOptions = {
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders:"*"
 };
+app.options('*', cors(corsOptions)); // handle preflight requests
 // Middleware
 app.use(cors(corsOptions));
 app.use(express.json({ limit: '10mb' }));
@@ -42,7 +43,6 @@ mongoose.connect(MONGO_URI)
     console.error('MongoDB connection error:', error);
     process.exit(1);
   });
-app.options('*', cors(corsOptions)); // handle preflight requests
 // Routes
 app.use('/api/blogs', blogsRouter);
 
