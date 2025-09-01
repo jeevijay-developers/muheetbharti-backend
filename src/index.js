@@ -1,10 +1,10 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
 import blogsRouter from './routes/blogs.route.js';
 
-dotenv.config();
 
 const app = express();
 
@@ -19,9 +19,23 @@ const ORIGINS = [CLIENT_ADMIN_URL, CLIENT_WEBSITE_URL];
 // console.log("ULR ",CLIENT_ADMIN_URL, CLIENT_WEBSITE_URL);
 
 // console.log(CLIENT_ADMIN_URL);
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.options("*", cors()); // handle preflight requests
-const corsOptions = {
+// const corsOptions = {
+//   origin: (origin, callback) => {
+//     if (!origin || ORIGINS.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error('Not allowed by CORS'));
+//     }
+//   },
+//   credentials: true,
+//   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+//   allowedHeaders: "*",
+//   optionsSuccessStatus: 200
+// };
+app.use(cors({
   origin: (origin, callback) => {
     if (!origin || ORIGINS.includes(origin)) {
       callback(null, true);
@@ -33,12 +47,10 @@ const corsOptions = {
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: "*",
   optionsSuccessStatus: 200
-};
+}));
 
 // Middleware
-app.use(cors(corsOptions));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
 
 // Routes
 app.use('/api/blogs', blogsRouter);
