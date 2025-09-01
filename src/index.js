@@ -42,7 +42,7 @@ mongoose.connect(MONGO_URI)
     console.error('MongoDB connection error:', error);
     process.exit(1);
   });
-
+app.options('*', cors(corsOptions)); // handle preflight requests
 // Routes
 app.use('/api/blogs', blogsRouter);
 
