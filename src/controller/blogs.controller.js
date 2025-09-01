@@ -48,7 +48,7 @@ export const getAllBlogs = async (req, res) => {
       .exec();
 
     const total = await Blog.countDocuments(filter);
-    console.log(`Total blogs found: ${total}`);
+    // console.log(`Total blogs found: ${total}`);
 
     res.status(200).json({
       success: true,
