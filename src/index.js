@@ -21,22 +21,9 @@ const ORIGINS = [CLIENT_ADMIN_URL, CLIENT_WEBSITE_URL];
 // console.log(CLIENT_ADMIN_URL);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.options("*", cors()); // handle preflight requests
-// const corsOptions = {
-//   origin: (origin, callback) => {
-//     if (!origin || ORIGINS.includes(origin)) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error('Not allowed by CORS'));
-//     }
-//   },
-//   credentials: true,
-//   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-//   allowedHeaders: "*",
-//   optionsSuccessStatus: 200
-// };
-app.use(cors({
-  origin: function (origin, callback) {
+// app.options("*", cors()); // handle preflight requests
+const corsOptions = {
+  origin: (origin, callback) => {
     if (!origin || ORIGINS.includes(origin)) {
       callback(null, true);
     } else {
@@ -47,7 +34,9 @@ app.use(cors({
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: "*",
   optionsSuccessStatus: 200
-}));
+};
+app.use(cors(corsOptions));
+// app.options("*", cors(corsOptions));
 
 // Middleware
 
