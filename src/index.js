@@ -21,7 +21,7 @@ const ORIGINS = [CLIENT_ADMIN_URL, CLIENT_WEBSITE_URL];
 // console.log(CLIENT_ADMIN_URL);
 
 const corsOptions = {
-  origin: (origin,callback)=>{
+  origin: (origin, callback) => {
     if (!origin || ORIGINS.includes(origin)) {
       callback(null, true);
     } else {
