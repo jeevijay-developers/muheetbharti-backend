@@ -13,16 +13,21 @@ const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 const CLIENT_ADMIN_URL = process.env.CLIENT_ADMIN_URL;
 const CLIENT_WEBSITE_URL = process.env.CLIENT_WEBSITE_URL;
-
+const ORIGINS = [CLIENT_ADMIN_URL, CLIENT_WEBSITE_URL];
 // CORS configuration
 const corsOptions = {
-  origin: [CLIENT_ADMIN_URL, CLIENT_WEBSITE_URL],
+  origin: (origin,callback)=>{
+    if (!origin || ORIGINS.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   optionsSuccessStatus: 200,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 };
-
 // Middleware
 app.use(cors(corsOptions));
 app.use(express.json({ limit: '10mb' }));
