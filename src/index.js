@@ -29,6 +29,7 @@ const corsOptions = {
   allowedHeaders:"*"
 };
 app.options('*', cors(corsOptions)); // handle preflight requests
+
 // Middleware
 app.use(cors(corsOptions));
 app.use(express.json({ limit: '10mb' }));
