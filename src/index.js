@@ -20,6 +20,7 @@ const ORIGINS = [CLIENT_ADMIN_URL, CLIENT_WEBSITE_URL];
 
 // console.log(CLIENT_ADMIN_URL);
 
+app.options("*", cors()); // handle preflight requests
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin || ORIGINS.includes(origin)) {
@@ -29,11 +30,10 @@ const corsOptions = {
     }
   },
   credentials: true,
-  optionsSuccessStatus: 200,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders:"*"
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: "*",
+  optionsSuccessStatus: 200
 };
-// app.options('*', cors(corsOptions)); // handle preflight requests
 
 // Middleware
 app.use(cors(corsOptions));
