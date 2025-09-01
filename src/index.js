@@ -14,7 +14,12 @@ const MONGO_URI = process.env.MONGO_URI;
 const CLIENT_ADMIN_URL = process.env.CLIENT_ADMIN_URL;
 const CLIENT_WEBSITE_URL = process.env.CLIENT_WEBSITE_URL;
 const ORIGINS = [CLIENT_ADMIN_URL, CLIENT_WEBSITE_URL];
+
 // CORS configuration
+// console.log("ULR ",CLIENT_ADMIN_URL, CLIENT_WEBSITE_URL);
+
+// console.log(CLIENT_ADMIN_URL);
+
 const corsOptions = {
   origin: (origin,callback)=>{
     if (!origin || ORIGINS.includes(origin)) {
@@ -28,27 +33,18 @@ const corsOptions = {
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders:"*"
 };
-app.options('*', cors(corsOptions)); // handle preflight requests
+// app.options('*', cors(corsOptions)); // handle preflight requests
 
 // Middleware
 app.use(cors(corsOptions));
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Connect to MongoDB
-mongoose.connect(MONGO_URI)
-  .then(() => {
-    console.log('Connected to MongoDB successfully');
-  })
-  .catch((error) => {
-    console.error('MongoDB connection error:', error);
-    process.exit(1);
-  });
 // Routes
 app.use('/api/blogs', blogsRouter);
 
 // Basic route
-app.get('/', (req, res) => {
+app.get('/',async (req, res) => {
   res.json({
     message: 'Muheet Bharti Portfolio Backend API',
     status: 'Running',
@@ -61,4 +57,14 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  
+// Connect to MongoDB
+mongoose.connect(MONGO_URI)
+  .then(() => {
+    console.log('Connected to MongoDB successfully');
+  })
+  .catch((error) => {
+    console.error('MongoDB connection error:', error);
+    process.exit(1);
+  });
 });
